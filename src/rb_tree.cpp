@@ -116,21 +116,19 @@ void RBTree::add(std::string key){
 	RBTree::insertFixup(z);
 }
 
-void RBTree::findSuggestions(std::string& currentWord, std::vector<std::string>& suggestions) {
+void RBTree::findSuggestions(std::string& currentWord, std::vector<std::string>& suggestions){
     int numberOfSuggestions = 0;
     getSuggestions(currentWord, suggestions, _root, numberOfSuggestions);
 }
 
-void RBTree::getSuggestions(std::string& currentWord, std::vector<std::string>& suggestions, node* x, int& count) {
-    if (x == nullptr || count >= 5) {
+void RBTree::getSuggestions(std::string& currentWord, std::vector<std::string>& suggestions, node* x, int& count){
+    if(x == nullptr || count >= 5){
         return;
     }
-
-    if ((x->key).substr(0, currentWord.size()).compare(currentWord) == 0) {
+    if((x->key).substr(0, currentWord.size()).compare(currentWord) == 0){
         suggestions.push_back(x->key);
         count++;
     }
-
     getSuggestions(currentWord, suggestions, x->left, count);
     getSuggestions(currentWord, suggestions, x->right, count);
 }
