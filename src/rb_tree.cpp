@@ -1,7 +1,11 @@
-#include <rb_tree.h>
+#include "rb_tree.h"
 
 long RBTree::size(){
 	return RBTree::_size;
+}
+
+node* RBTree::getRoot(){
+	return RBTree::_root;
 }
 
 void RBTree::leftRotate(node* x){
@@ -86,8 +90,8 @@ void RBTree::insertFixup(node* z){
 	_root->color = BLACK;
 }
 
-void RBTree::add(std::string key, long idx){
-	node* z = new node(key,idx,_nil);
+void RBTree::add(std::string key){
+	node* z = new node(key,_nil);
 	node* y = _nil;
 	node* x = _root;
 	while(x != _nil){
@@ -116,25 +120,20 @@ void RBTree::add(std::string key, long idx){
 	RBTree::insertFixup(z);
 }
 
-void RBTree::findInRange(std::vector<long> &res, std::string first, std::string last, node* p){
-	if(p == _nil){
-		return;
+void RBTree::findSuggestions(std::string& currentWord, std::vector<std::string>& suggestions){
+	suggestions.clear();
+	int prefixSize = currentWord.size();
+	int numberOfSuggestions = 0;
+	node* x = _root;
+	while(x != nullptr && numberOfSuggestions < 4){
+		int comparisonResult = x->key.compare(0, prefixSize, currentWord);
+		if(comparisonResult >= 0){
+			suggestions.push_back(x->key);
+		}
+		if(comparisonResult <= 0){
+			x = x->right;
+		} else {
+			x = nullptr;
+		}
 	}
-	if(p->key.compare(first) >= 0 && p->key.compare(last) <= 0){
-		findInRange(res, first, last, p->left);
-		res.push_back(p->idx);
-		findInRange(res, first, last, p->right);
-	}
-	if(p->key < first){
-		findInRange(res, first, last, p->right);
-	}
-	if(p->key > last){
-		findInRange(res, first, last, p->left);
-	}
-}
-
-void RBTree::find(std::vector<long> &res, std::string first, std::string last){       
-	node* current = _root;
-	findInRange(res, first, last, current);
-	res.resize(res.size());
 }

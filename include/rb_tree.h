@@ -8,15 +8,13 @@ enum Color {RED, BLACK};
 
 struct node{
 	std::string key;
-	long idx;
 	node* parent;
 	node* right;
 	node* left;
 	Color color;
 
-	node(std::string key, long idx, node* x):
+	node(std::string key, node* x):
 		key(key),
-		idx(idx),
 		parent(x),
 		right(x),
 		left(x),
@@ -32,15 +30,15 @@ private:
 public:
 	RBTree(){
 		_size = 0;
-		_nil = new node("",0,nullptr);
+		_nil = new node("",nullptr);
 		_root = _nil;
 	}
-	long size();        
-	void add (std::string key, long idx);
-	void find(std::vector<long> &res, std::string first, std::string last);
+	long size();
+	node* getRoot();
+	void add (std::string key);
 	void leftRotate(node* x);
 	void rightRotate(node* x);
-	void findInRange(std::vector<long> &res, std::string first, std::string last, node* p);
+	void findSuggestions(std::string& currentWord, std::vector<std::string>& suggestions);
 	void insertFixup(node* z);
 };
 #endif
