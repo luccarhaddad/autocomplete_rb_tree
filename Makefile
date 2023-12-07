@@ -1,5 +1,5 @@
-CXX = clang++
-CXXFLAGS = -Wall -g -std=c++11
+CXX = g++
+CXXFLAGS = -Wall -g -std=c++11 -lncurses
 SRC_DIR = src
 INCLUDE_DIR = include
 

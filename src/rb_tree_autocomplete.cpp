@@ -1,5 +1,4 @@
 #include "rb_tree_autocomplete.h"
-#include <iostream>
 
 void AutoComplete::assembleDictionary(std::ifstream& inputFile, RBTree& Dic){
 	std::string line;
