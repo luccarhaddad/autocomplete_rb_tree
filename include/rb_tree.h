@@ -34,11 +34,11 @@ public:
 		_root = _nil;
 	}
 	long size();
-	node* getRoot();
 	void add (std::string key);
 	void leftRotate(node* x);
 	void rightRotate(node* x);
 	void findSuggestions(std::string& currentWord, std::vector<std::string>& suggestions);
+	void getSuggestions(std::string& currentWord, std::vector<std::string>& suggestions, node* x, int& count);
 	void insertFixup(node* z);
 };
 #endif

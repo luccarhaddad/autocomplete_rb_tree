@@ -1,39 +1,38 @@
 #include <iostream>
 #include "rb_tree_autocomplete.h"
 #include <cstdlib>
-
-void DFS(node* x){
-    if(x == nullptr){
-        return;
-    }
-    std::cout << x->key << std::endl;
-    DFS(x->left);
-    DFS(x->right);
-}
+#include <curses.h>
 
 int main(){
-    std::string filepath = "palavras.txt";
+    std::string filepath = "dicionario_ordenado.txt";
     std::string userInput, line;
     std::vector<std::string> currentSuggestions;
-    std::ifstream inputFile(filepath);
+    char c;
+
+    std::ifstream inputFile;
+    inputFile.open(filepath);
+
     AutoComplete algorithm;
     RBTree tree;
-
-    while(inputFile >> line){
-		std::cout << line << std::endl;
-	}
-
     algorithm.assembleDictionary(inputFile, tree);
-    DFS(tree.getRoot());
+
     while(true){
-        std::getline(std::cin, userInput);
-        if(userInput.empty()){ break; }
+        c = std::getchar();
+
+        if(c == 27 || c == '\n') break;
+        else if (c == 127 && userInput.size() > 0){
+            userInput.pop_back();
+        }
+        if(std::isalpha(c) && c != ' ' && c != 127 && c != 27 && c != '\n'){userInput.push_back(c);}
+        
         #ifdef _WIN32
             std::system("cls");
         #else
             std::system("clear");
         #endif
+        
         currentSuggestions = algorithm.suggestions(userInput, tree);
+        sort(currentSuggestions.begin(), currentSuggestions.end());
         if (currentSuggestions.empty()) {
             std::cout << "Sem sugestões." << std::endl;
         } else {
@@ -42,6 +41,9 @@ int main(){
                 std::cout << word << std::endl;
             }
         }
+        currentSuggestions.clear();
     }
+
+    inputFile.close();
     return 0;
 }

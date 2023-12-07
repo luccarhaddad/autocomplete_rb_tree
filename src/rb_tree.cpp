@@ -4,10 +4,6 @@ long RBTree::size(){
 	return RBTree::_size;
 }
 
-node* RBTree::getRoot(){
-	return RBTree::_root;
-}
-
 void RBTree::leftRotate(node* x){
 	node* y = x->right;
 	x->right = y->left;
@@ -120,20 +116,21 @@ void RBTree::add(std::string key){
 	RBTree::insertFixup(z);
 }
 
-void RBTree::findSuggestions(std::string& currentWord, std::vector<std::string>& suggestions){
-	suggestions.clear();
-	int prefixSize = currentWord.size();
-	int numberOfSuggestions = 0;
-	node* x = _root;
-	while(x != nullptr && numberOfSuggestions < 4){
-		int comparisonResult = x->key.compare(0, prefixSize, currentWord);
-		if(comparisonResult >= 0){
-			suggestions.push_back(x->key);
-		}
-		if(comparisonResult <= 0){
-			x = x->right;
-		} else {
-			x = nullptr;
-		}
-	}
+void RBTree::findSuggestions(std::string& currentWord, std::vector<std::string>& suggestions) {
+    int numberOfSuggestions = 0;
+    getSuggestions(currentWord, suggestions, _root, numberOfSuggestions);
+}
+
+void RBTree::getSuggestions(std::string& currentWord, std::vector<std::string>& suggestions, node* x, int& count) {
+    if (x == nullptr || count >= 5) {
+        return;
+    }
+
+    if ((x->key).substr(0, currentWord.size()).compare(currentWord) == 0) {
+        suggestions.push_back(x->key);
+        count++;
+    }
+
+    getSuggestions(currentWord, suggestions, x->left, count);
+    getSuggestions(currentWord, suggestions, x->right, count);
 }
