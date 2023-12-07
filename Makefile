@@ -3,7 +3,7 @@ CXXFLAGS = -Wall -g -std=c++11 -lncurses
 SRC_DIR = src
 INCLUDE_DIR = include
 
-TARGET = myprogram
+TARGET = main
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 OBJS = $(patsubst $(SRC_DIR)/%.cpp,%.o,$(SRCS))
 INCLUDES = -I$(INCLUDE_DIR)
