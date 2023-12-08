@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ncurses.h>
-#include "rb_tree_autocomplete.h"
 #include <chrono>
+#include "rb_tree_autocomplete.h"
 
 #define COLOR_PAIR_GREEN 1
 
